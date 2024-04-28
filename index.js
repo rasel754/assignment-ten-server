@@ -39,7 +39,7 @@ async function run() {
 
   app.get('/myArtAndCraft/:id',async (req , res) => {
     console.log(req.params);
-    const result = await craftCollection.find({email:req.params.email}).toArray();
+    const result = await craftCollection.find({ownerEmail:req.params.email}).toArray();
     res.send(result);
   })
 
