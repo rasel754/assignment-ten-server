@@ -37,6 +37,12 @@ async function run() {
       res.send(result);
   })
 
+  app.get('/myArtAndCraft/:id',async (req , res) => {
+    console.log(req.params);
+    const result = await craftCollection.find({email:req.params.email}).toArray();
+    res.send(result);
+  })
+
 
 
     // Send a ping to confirm a successful connection
