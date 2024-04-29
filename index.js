@@ -30,16 +30,16 @@ async function run() {
     await client.connect();
     const craftCollection = client.db('craftDB').collection('craft');
 
-    app.post('/addCraft', async (req, res) => {
+    app.post('/allArtAndCraft', async (req, res) => {
       const newCraft = req.body;
       console.log(newCraft);
       const result = await craftCollection.insertOne(newCraft);
       res.send(result);
   })
 
-  app.get('/myArtAndCraft/:id',async (req , res) => {
+  app.get('/myProduct/:email',async (req , res) => {
     console.log(req.params);
-    const result = await craftCollection.find({ownerEmail: req.params.ownerEmail}).toArray();
+    const result = await craftCollection.find({email: req.params.email}).toArray();
     res.send(result);
   })
 
@@ -53,6 +53,13 @@ async function run() {
      const id = req.params.id;
     const query ={_id: new ObjectId (id)};
     const result = await craftCollection.deleteOne(query);
+    res.send(result);
+  });
+  
+  app.get('/allArtAndCraft/:id',async (req, res) => {
+    const id = req.params.id;
+    const query ={_id: new ObjectId (id)};
+    const result = await craftCollection.findOne(query);
     res.send(result);
   });
 
