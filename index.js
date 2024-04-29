@@ -56,13 +56,41 @@ async function run() {
     res.send(result);
   });
   
+  
   app.get('/allArtAndCraft/:id',async (req, res) => {
     const id = req.params.id;
     const query ={_id: new ObjectId (id)};
     const result = await craftCollection.findOne(query);
     res.send(result);
   });
-
+  // update 
+  // app.patch('/myArtAndCraft/:id', async(req, res) => {
+  //   const id = req.params.id;
+  //   const query ={_id: new ObjectId (id)};
+  //   const result = await craftCollection.updateOne(query, {$set: req.body});
+  //   res.send(result);
+  // });
+  app.put('/allArtAndCraft/:id', async (req, res) => {
+    const id = req.params.id;
+    const filter = {_id : new ObjectId(id)}
+    const options = {upsert : true};
+    const updateCraft = req.body;
+    const craft = {
+      $set:{
+        itemName:updateCraft.itemName,
+        subcategoryName:updateCraft.subcategoryName,
+        shortDescription:updateCraft.shortDescription,
+        price:updateCraft.price,
+        processTime:updateCraft.processTime,
+        rating:updateCraft.rating,
+        customization:updateCraft.customization,
+        stockStatus:updateCraft.stockStatus,
+        photo:updateCraft.photo
+      }
+    }
+    const result = await craftCollection.updateOne(filter, craft, options);
+    res.send(result);
+  });
 
 
     // Send a ping to confirm a successful connection
